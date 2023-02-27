@@ -1,10 +1,10 @@
-package src.data;
+package money.data;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import src.exception.MoneyCurrencyNotHandleException;
+import money.exception.MoneyCurrencyNotHandleException;
 
 public class MoneyBag {
 

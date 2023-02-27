@@ -1,4 +1,4 @@
-package src.test;
+package money.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,9 +6,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import src.data.Money;
-import src.data.MoneyType;
-import src.exception.MoneyCurrencyNotHandleException;
+import money.data.Money;
+import money.data.MoneyType;
+import money.exception.MoneyCurrencyNotHandleException;
 
 class MoneyTest {
 

@@ -1,4 +1,4 @@
-package src.main;
+package money.main;
 
 public class Main {
 

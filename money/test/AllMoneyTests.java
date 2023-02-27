@@ -1,4 +1,4 @@
-package src.test;
+package money.test;
 
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;

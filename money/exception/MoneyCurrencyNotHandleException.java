@@ -1,4 +1,4 @@
-package src.exception;
+package money.exception;
 
 public class MoneyCurrencyNotHandleException extends Exception {
 	/**

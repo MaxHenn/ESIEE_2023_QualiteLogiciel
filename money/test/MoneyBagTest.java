@@ -1,13 +1,13 @@
-package src.test;
+package money.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
-import src.data.Money;
-import src.data.MoneyBag;
-import src.data.MoneyType;
-import src.exception.MoneyCurrencyNotHandleException;
+import money.data.Money;
+import money.data.MoneyBag;
+import money.data.MoneyType;
+import money.exception.MoneyCurrencyNotHandleException;
 
 class MoneyBagTest {
 

@@ -1,6 +1,6 @@
-package src.data;
+package money.data;
 
-import src.exception.MoneyCurrencyNotHandleException;
+import money.exception.MoneyCurrencyNotHandleException;
 
 /**
  * Class to link a amount with a currency
