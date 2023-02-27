@@ -2,6 +2,7 @@
 *.idea
 *.vscode
 *.settings
+*.iml
 
 # Compiled class file
 *.class
