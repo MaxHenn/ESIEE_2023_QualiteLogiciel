@@ -2,13 +2,11 @@ package money.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import money.data.Money;
-import money.data.MoneyType;
-import money.exception.MoneyCurrencyNotHandleException;
+import money.data.*;
+import money.exception.*;
 
 class MoneyTest {
 
@@ -16,14 +14,16 @@ class MoneyTest {
 	private static int start_amount = 20;
 	private static String start_currency = MoneyType.EUR.name();
 
-	@BeforeAll
+	@BeforeEach
 	public static void init() {
 		try {
 			m = new Money(start_amount, start_currency);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 			System.exit(-1);
 		}
+		assertTrue(m.amount() > 0);
+		assertTrue(m.currency().length() == 3);
 	}
 
 	@Test
@@ -39,18 +39,17 @@ class MoneyTest {
 		assertNotEquals(money.amount(), amount);
 	}
 
-	@BeforeEach
-	void testMoneyStatus() {
-		assertTrue(m.amount() > 0);
-		assertTrue(m.currency().length() == 3);
-	}
-
 	@Test
 	void testAddAmount() {
 		int mAmount = m.amount();
 		int amount = 5;
 		String currency = start_currency;
-		m.add(amount, currency);
+		try {
+			m.add(amount, currency);
+		} catch (MoneyCurrencyException ex) {
+			fail(ex.toString());
+			return;
+		}
 		assertEquals(m.amount(), mAmount + amount);
 	}
 
@@ -59,21 +58,26 @@ class MoneyTest {
 		int mAmount = m.amount();
 		int amount = -5;
 		String currency = start_currency;
-		m.add(amount, currency);
+		try {
+			m.add(amount, currency);
+		} catch (MoneyCurrencyException ex) {
+			fail(ex.toString());
+			return;
+		}
 		assertEquals(m.amount(), mAmount + amount);
 	}
 
 	@Test
 	void testAddMoney() {
 		Money money;
+		int moneyAmount = start_amount * 2;
 		try {
-			money = new Money(start_amount * 2, start_currency);
-		} catch (MoneyCurrencyNotHandleException ex) {
+			money = new Money(moneyAmount, start_currency);
+			money.add(m);
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 			return;
 		}
-		int moneyAmount = money.amount();
-		money.add(m);
 		assertEquals(money.amount(), moneyAmount + m.amount());
 	}
 
@@ -88,9 +92,9 @@ class MoneyTest {
 			fail(ex.toString());
 			return;
 		}
-		int moneyAmount = money.amount();
-		money.add(m);
-		assertEquals(money.amount(), moneyAmount);
+		assertThrows(MoneyCurrencyNotEqualsException.class, () -> {
+			money.add(m);
+		});
 	}
 
 	@Test
@@ -109,7 +113,7 @@ class MoneyTest {
 		});
 	}
 
-	private static void createFalseMoney(int amount) throws MoneyCurrencyNotHandleException {
+	private static void createFalseMoney(int amount) throws MoneyCurrencyException {
 		Money money = new Money(amount, "Chocolat");
 		money.add(10, "Vanille");
 	}

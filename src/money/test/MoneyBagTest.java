@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
-import money.data.Money;
-import money.data.MoneyBag;
-import money.data.MoneyType;
-import money.exception.MoneyCurrencyNotHandleException;
+import money.data.*;
+import money.exception.*;
 
 class MoneyBagTest {
 
@@ -26,7 +24,7 @@ class MoneyBagTest {
 		try {
 			moneyBag.add(amount, currency);
 			assertEquals(moneyBag.getCurrencyAmount(currency), amount);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}
@@ -41,7 +39,7 @@ class MoneyBagTest {
 			Money money = new Money(amount, currency);
 			moneyBag.add(money);
 			moneyBag.add(bag);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}
@@ -59,7 +57,7 @@ class MoneyBagTest {
 			assertEquals(bag.getCurrencyAmount(currencyDollar), amount);
 			bag.add(new Money(amount, currencyEuro));
 			assertEquals(bag.getCurrencyAmount(currencyEuro), amount * 2);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}
@@ -72,7 +70,7 @@ class MoneyBagTest {
 		try {
 			moneyBag.sub(amount, currency);
 			assertTrue(moneyBag.getCurrencyAmount(currency) < 0);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}
@@ -85,7 +83,7 @@ class MoneyBagTest {
 			Money money = new Money(amount, currency);
 			moneyBag.sub(money);
 			assertTrue(moneyBag.getCurrencyAmount(currency) < 0);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}
@@ -99,7 +97,7 @@ class MoneyBagTest {
 			moneyBag2.add(amount, currency);
 			moneyBag.sub(moneyBag2);
 			assertTrue(moneyBag.getCurrencyAmount(currency) < 0);
-		} catch (MoneyCurrencyNotHandleException ex) {
+		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
 		}
 	}

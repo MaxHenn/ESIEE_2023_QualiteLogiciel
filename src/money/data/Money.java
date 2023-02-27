@@ -1,5 +1,6 @@
 package money.data;
 
+import money.exception.MoneyCurrencyNotEqualsException;
 import money.exception.MoneyCurrencyNotHandleException;
 
 /**
@@ -65,11 +66,14 @@ public class Money {
 	 * 
 	 * @param m another Money instance to add
 	 * @return This Money Object
+	 * @throws MoneyCurrencyNotEqualsException If both Currency are not equals,
+	 *                                         throw the Exception
 	 */
-	public Money add(Money m) {
-		if (currency().equals(m.currency())) {
-			this.amount += m.amount();
+	public Money add(Money m) throws MoneyCurrencyNotEqualsException {
+		if (!currency().equals(m.currency())) {
+			throw new MoneyCurrencyNotEqualsException(currency(), m.currency());
 		}
+		this.amount += m.amount();
 		return this;
 	}
 
@@ -80,11 +84,14 @@ public class Money {
 	 * @param nAmount
 	 * @param nCurrency
 	 * @return
+	 * @throws MoneyCurrencyNotEqualsException If both Currency are not equals,
+	 *                                         throw the Exception
 	 */
-	public Money add(int nAmount, String nCurrency) {
-		if (currency().equals(nCurrency)) {
-			this.amount += nAmount;
+	public Money add(int nAmount, String nCurrency) throws MoneyCurrencyNotEqualsException {
+		if (!currency().equals(nCurrency)) {
+			throw new MoneyCurrencyNotEqualsException(currency(), nCurrency);
 		}
+		this.amount += nAmount;
 		return this;
 	}
 

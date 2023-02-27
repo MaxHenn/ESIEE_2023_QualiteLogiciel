@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import money.exception.MoneyCurrencyNotEqualsException;
 import money.exception.MoneyCurrencyNotHandleException;
 
 public class MoneyBag {
@@ -18,7 +19,7 @@ public class MoneyBag {
 		return bag.containsKey(nCurrency);
 	}
 
-	public void add(int amount, String currency) throws MoneyCurrencyNotHandleException {
+	public void add(int amount, String currency) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		if (hasCurrency(currency)) {
 			bag.get(currency).add(amount, currency);
 		} else {
@@ -26,17 +27,17 @@ public class MoneyBag {
 		}
 	}
 
-	public void add(Money m) throws MoneyCurrencyNotHandleException {
+	public void add(Money m) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		add(m.amount(), m.currency());
 	}
 
-	public void add(MoneyBag bag) throws MoneyCurrencyNotHandleException {
+	public void add(MoneyBag bag) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		for (Entry<String, Money> money : bag.getBag().entrySet()) {
 			add(money.getValue());
 		}
 	}
 
-	public void sub(int amount, String currency) throws MoneyCurrencyNotHandleException {
+	public void sub(int amount, String currency) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		if (hasCurrency(currency)) {
 			bag.get(currency).add(-amount, currency);
 		} else {
@@ -45,11 +46,11 @@ public class MoneyBag {
 		}
 	}
 
-	public void sub(Money m) throws MoneyCurrencyNotHandleException {
+	public void sub(Money m) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		sub(m.amount(), m.currency());
 	}
 
-	public void sub(MoneyBag bag) throws MoneyCurrencyNotHandleException {
+	public void sub(MoneyBag bag) throws MoneyCurrencyNotHandleException, MoneyCurrencyNotEqualsException {
 		for (Entry<String, Money> money : bag.getBag().entrySet()) {
 			sub(money.getValue());
 		}
