@@ -1,9 +1,11 @@
 # IDE
 *.idea
 *.vscode
+*.settings
 
 # Compiled class file
 *.class
+*.bin
 
 # Log file
 *.log
