@@ -7,13 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import src.data.Money;
+import src.data.MoneyType;
 import src.exception.MoneyCurrencyNotHandleException;
 
 class MoneyTest {
 
 	private static Money m;
 	private static int start_amount = 20;
-	private static String start_currency = "EUR";
+	private static String start_currency = MoneyType.EUR.name();
 
 	@BeforeAll
 	public static void init() {
@@ -71,9 +72,34 @@ class MoneyTest {
 			fail(ex.toString());
 			return;
 		}
-		int mAmount = m.amount();
-		m.add(money);
-		assertEquals(m.amount(), mAmount + money.amount());
+		int moneyAmount = money.amount();
+		money.add(m);
+		assertEquals(money.amount(), moneyAmount + m.amount());
+	}
+
+	@Test
+	void testAddInvalidCurrencyMoney() {
+		Money money;
+		String currency = MoneyType.GBP.name();
+		assertNotEquals(m.currency(), currency);
+		try {
+			money = new Money(start_amount, currency);
+		} catch (MoneyCurrencyNotHandleException ex) {
+			fail(ex.toString());
+			return;
+		}
+		int moneyAmount = money.amount();
+		money.add(m);
+		assertEquals(money.amount(), moneyAmount);
+	}
+
+	@Test
+	void testCreationAllKnownCurrencyMoney() {
+		assertDoesNotThrow(() -> {
+			for (MoneyType moneyType : MoneyType.values()) {
+				new Money(start_amount, moneyType.name());
+			}
+		});
 	}
 
 	@Test
