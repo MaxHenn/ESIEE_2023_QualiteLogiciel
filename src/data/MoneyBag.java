@@ -1,8 +1,14 @@
 package src.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MoneyBag {
+
+	private Map<String, Money> bag;
+
 	public MoneyBag() {
-		// TODO Auto-generated constructor stub
+		bag = new HashMap<String, Money>();
 	}
 
 }
