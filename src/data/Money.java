@@ -1,8 +1,6 @@
 package src.data;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
+import src.exception.MoneyCurrencyNotHandleException;
 
 /**
  * Class to link a amount with a currency
@@ -14,23 +12,37 @@ public class Money {
 	private int amount;
 	private String currency;
 
-	private static List<String> currencyType = new ArrayList<String>(Arrays.asList("EUR", "USD", "CHF", "GBP"));
-
 	/**
 	 * Create a new Money instance
 	 * 
 	 * @param amount
 	 * @param currency
+	 * @throws MoneyCurrencyNotHandleException
 	 */
-	public Money(int amount, String currency) {
+	public Money(int amount, String currency) throws MoneyCurrencyNotHandleException {
 		if (amount < 0) {
 			amount = 0;
 		}
-		if (!currencyType.contains(currency)) {
-			currency = currencyType.get(0);
+		if (!isCurrencyValid(currency)) {
+			throw new MoneyCurrencyNotHandleException(currency);
 		}
 		this.amount = amount;
 		this.currency = currency;
+	}
+
+	/**
+	 * Check if the given currency is in the MoneyType Enums
+	 * 
+	 * @param currency the currency to check
+	 * @return true if the currency is found, false otherwise
+	 */
+	private boolean isCurrencyValid(String currency) {
+		for (MoneyType type : MoneyType.values()) {
+			if (type.name().equals(currency)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -64,6 +76,7 @@ public class Money {
 	/**
 	 * Add into the Money instance the given amount if the currency is the same.
 	 * Warning : amount can be negative
+	 * 
 	 * @param nAmount
 	 * @param nCurrency
 	 * @return
@@ -77,6 +90,7 @@ public class Money {
 
 	/**
 	 * Check if two Money instance are equals
+	 * 
 	 * @param m The Money to compare
 	 * @return true if both currency and amount are the same
 	 */

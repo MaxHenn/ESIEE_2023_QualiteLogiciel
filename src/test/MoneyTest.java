@@ -2,11 +2,12 @@ package src.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import src.data.Money;
+import src.exception.MoneyCurrencyNotHandleException;
 
 class MoneyTest {
 
@@ -16,17 +17,28 @@ class MoneyTest {
 
 	@BeforeAll
 	public static void init() {
-		m = new Money(start_amount, start_currency);
+		try {
+			m = new Money(start_amount, start_currency);
+		} catch (MoneyCurrencyNotHandleException ex) {
+			fail(ex.toString());
+			System.exit(-1);
+		}
 	}
 
-	@BeforeAll
+	@Test
 	public static void createNegativeAmount() {
 		int amount = -1;
-		Money money = new Money(amount, start_currency);
+		Money money;
+		try {
+			money = new Money(amount, start_currency);
+		} catch (MoneyCurrencyNotHandleException ex) {
+			fail(ex.toString());
+			return;
+		}
 		assertNotEquals(money.amount(), amount);
 	}
 
-	@Before
+	@BeforeEach
 	void testMoneyStatus() {
 		assertTrue(m.amount() > 0);
 		assertTrue(m.currency().length() == 3);
@@ -52,10 +64,28 @@ class MoneyTest {
 
 	@Test
 	void testAddMoney() {
-		Money money = new Money(start_amount * 2, start_currency);
+		Money money;
+		try {
+			money = new Money(start_amount * 2, start_currency);
+		} catch (MoneyCurrencyNotHandleException ex) {
+			fail(ex.toString());
+			return;
+		}
 		int mAmount = m.amount();
 		m.add(money);
 		assertEquals(m.amount(), mAmount + money.amount());
+	}
+
+	@Test
+	void testAddUnknownCurrencyMoney() {
+		assertThrows(MoneyCurrencyNotHandleException.class, () -> {
+			createFalseMoney(start_amount);
+		});
+	}
+
+	private static void createFalseMoney(int amount) throws MoneyCurrencyNotHandleException {
+		Money money = new Money(amount, "Chocolat");
+		money.add(10, "Vanille");
 	}
 
 }
