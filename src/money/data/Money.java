@@ -1,7 +1,6 @@
 package money.data;
 
-import money.exception.MoneyCurrencyNotEqualsException;
-import money.exception.MoneyCurrencyNotHandleException;
+import money.exception.*;
 
 /**
  * Class to link a amount with a currency
@@ -69,12 +68,8 @@ public class Money {
 	 * @throws MoneyCurrencyNotEqualsException If both Currency are not equals,
 	 *                                         throw the Exception
 	 */
-	public Money add(Money m) throws MoneyCurrencyNotEqualsException {
-		if (!currency().equals(m.currency())) {
-			throw new MoneyCurrencyNotEqualsException(currency(), m.currency());
-		}
-		this.amount += m.amount();
-		return this;
+	public Money add(Money m) throws MoneyCurrencyException {
+		return add(m.amount(), m.currency());
 	}
 
 	/**
@@ -87,7 +82,10 @@ public class Money {
 	 * @throws MoneyCurrencyNotEqualsException If both Currency are not equals,
 	 *                                         throw the Exception
 	 */
-	public Money add(int nAmount, String nCurrency) throws MoneyCurrencyNotEqualsException {
+	public Money add(int nAmount, String nCurrency) throws MoneyCurrencyException {
+		if (!isCurrencyValid(nCurrency)) {
+			throw new MoneyCurrencyNotHandleException(nCurrency);
+		}
 		if (!currency().equals(nCurrency)) {
 			throw new MoneyCurrencyNotEqualsException(currency(), nCurrency);
 		}

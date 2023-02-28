@@ -11,68 +11,63 @@ import money.exception.*;
 class MoneyTest {
 
 	private static Money m;
-	private static int start_amount = 20;
-	private static String start_currency = MoneyType.EUR.name();
+	private static int default_amount = 20;
+	private static String default_currency = MoneyType.EUR.name();
 
 	@BeforeEach
-	public static void init() {
-		try {
-			m = new Money(start_amount, start_currency);
-		} catch (MoneyCurrencyException ex) {
-			fail(ex.toString());
-			System.exit(-1);
-		}
+	public void init() {
+		assertDoesNotThrow(() -> {
+			m = new Money(default_amount, default_currency);
+		});
 		assertTrue(m.amount() > 0);
 		assertTrue(m.currency().length() == 3);
 	}
 
 	@Test
-	public static void createNegativeAmount() {
+	public void createNegativeAmount() {
 		int amount = -1;
-		Money money;
-		try {
-			money = new Money(amount, start_currency);
-		} catch (MoneyCurrencyNotHandleException ex) {
-			fail(ex.toString());
-			return;
-		}
-		assertNotEquals(money.amount(), amount);
+		assertDoesNotThrow(() -> {
+			Money money = new Money(amount, default_currency);
+			assertNotEquals(money.amount(), amount);
+		});
 	}
 
 	@Test
-	void testAddAmount() {
+	public void createSameMoney() {
+		assertDoesNotThrow(() -> {
+			Money money = new Money(default_amount, default_currency);
+			assertEquals(money.amount(), m.amount());
+			assertEquals(money.currency(), m.currency());
+			assertTrue(money.equals(m));
+		});
+	}
+
+	@Test
+	public void testAddAmount() {
 		int mAmount = m.amount();
 		int amount = 5;
-		String currency = start_currency;
-		try {
-			m.add(amount, currency);
-		} catch (MoneyCurrencyException ex) {
-			fail(ex.toString());
-			return;
-		}
+		assertDoesNotThrow(() -> {
+			m.add(amount, default_currency);
+		});
 		assertEquals(m.amount(), mAmount + amount);
 	}
 
 	@Test
-	void testAddNegativeAmount() {
+	public void testAddNegativeAmount() {
 		int mAmount = m.amount();
 		int amount = -5;
-		String currency = start_currency;
-		try {
-			m.add(amount, currency);
-		} catch (MoneyCurrencyException ex) {
-			fail(ex.toString());
-			return;
-		}
+		assertDoesNotThrow(() -> {
+			m.add(amount, default_currency);
+		});
 		assertEquals(m.amount(), mAmount + amount);
 	}
 
 	@Test
-	void testAddMoney() {
+	public void testAddMoney() {
 		Money money;
-		int moneyAmount = start_amount * 2;
+		int moneyAmount = default_amount * 2;
 		try {
-			money = new Money(moneyAmount, start_currency);
+			money = new Money(moneyAmount, default_currency);
 			money.add(m);
 		} catch (MoneyCurrencyException ex) {
 			fail(ex.toString());
@@ -82,12 +77,21 @@ class MoneyTest {
 	}
 
 	@Test
-	void testAddInvalidCurrencyMoney() {
+	public void testAddInvalidCurrency() {
+		String currency = MoneyType.GBP.name();
+		assertNotEquals(m.currency(), currency);
+		assertThrows(MoneyCurrencyNotEqualsException.class, () -> {
+			m.add(default_amount, currency);
+		});
+	}
+
+	@Test
+	public void testAddInvalidCurrencyMoney() {
 		Money money;
 		String currency = MoneyType.GBP.name();
 		assertNotEquals(m.currency(), currency);
 		try {
-			money = new Money(start_amount, currency);
+			money = new Money(default_amount, currency);
 		} catch (MoneyCurrencyNotHandleException ex) {
 			fail(ex.toString());
 			return;
@@ -98,24 +102,35 @@ class MoneyTest {
 	}
 
 	@Test
-	void testCreationAllKnownCurrencyMoney() {
+	public void testCreationAllKnownCurrencyMoney() {
 		assertDoesNotThrow(() -> {
 			for (MoneyType moneyType : MoneyType.values()) {
-				new Money(start_amount, moneyType.name());
+				new Money(default_amount, moneyType.name());
 			}
 		});
 	}
 
 	@Test
-	void testAddUnknownCurrencyMoney() {
+	public void testCreateUnknownCurrencyMoney() {
 		assertThrows(MoneyCurrencyNotHandleException.class, () -> {
-			createFalseMoney(start_amount);
+			createFalseMoney(default_amount);
+		});
+	}
+
+	@Test
+	public void testAddUnknownCurrencyMoney() {
+		assertThrows(MoneyCurrencyNotHandleException.class, () -> {
+			addFalseMoney(m, default_amount);
 		});
 	}
 
 	private static void createFalseMoney(int amount) throws MoneyCurrencyException {
 		Money money = new Money(amount, "Chocolat");
-		money.add(10, "Vanille");
+		addFalseMoney(money, amount);
+	}
+
+	private static void addFalseMoney(Money money, int amount) throws MoneyCurrencyException {
+		money.add(amount, "Vanille");
 	}
 
 }

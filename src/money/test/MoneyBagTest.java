@@ -45,13 +45,26 @@ class MoneyBagTest {
 	}
 
 	@Test
+	public void testAddSubBagCurrency() {
+		int amount = 10;
+		String currency = MoneyType.CHF.name();
+		MoneyBag moneyBag = new MoneyBag();
+		assertDoesNotThrow(() -> {
+			moneyBag.add(amount, currency);
+			assertEquals(moneyBag.getCurrencyAmount(currency), amount);
+			moneyBag.sub(amount, currency);
+			assertEquals(moneyBag.getCurrencyAmount(currency), 0);
+			assertTrue(moneyBag.hasCurrency(currency));
+		});
+	}
+
+	@Test
 	public void testAddMultipleCurrency() {
 		int amount = 10;
 		String currencyEuro = MoneyType.EUR.name();
 		String currencyDollar = MoneyType.USD.name();
 		try {
 			bag.add(amount, currencyEuro);
-			assertEquals(bag.getCurrencyAmount(currencyEuro), amount);
 			bag.add(amount, currencyDollar);
 			assertEquals(bag.getCurrencyAmount(currencyEuro), amount);
 			assertEquals(bag.getCurrencyAmount(currencyDollar), amount);
@@ -75,6 +88,7 @@ class MoneyBagTest {
 		}
 	}
 
+	@Test
 	public void testMoneyBagSubMoneyIntoNegative() {
 		int amount = 10;
 		String currency = MoneyType.CHF.name();
@@ -88,6 +102,7 @@ class MoneyBagTest {
 		}
 	}
 
+	@Test
 	public void testMoneyBagSubMoneyBagIntoNegative() {
 		int amount = 10;
 		String currency = MoneyType.GBP.name();
