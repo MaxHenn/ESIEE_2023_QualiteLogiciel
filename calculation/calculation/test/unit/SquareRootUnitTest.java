@@ -6,13 +6,11 @@ import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import calculation.process.CalculationManager;
+import calculation.process.CalculationUtility;
 
 public class SquareRootUnitTest {
 
@@ -35,28 +33,28 @@ public class SquareRootUnitTest {
 	@Test
 	public void testCalculate() {
 		assertDoesNotThrow(() -> {
-			listSquareRoot = CalculationManager.calculateSquareRoot(default_a, default_b);
+			listSquareRoot = CalculationUtility.calculateSquareRoot(default_a, default_b);
 		});
 	}
 
 	@Test
 	void testAIsSuperiorToB() {
 		assertThrows(InvalidParameterException.class, () -> {
-			listSquareRoot = CalculationManager.calculateSquareRoot(default_a + default_b, default_b);
+			listSquareRoot = CalculationUtility.calculateSquareRoot(default_a + default_b, default_b);
 		});
 	}
 
 	@Test
 	void testAIsNegative() {
 		assertThrows(InvalidParameterException.class, () -> {
-			listSquareRoot = CalculationManager.calculateSquareRoot(-default_a, default_b);
+			listSquareRoot = CalculationUtility.calculateSquareRoot(-default_a, default_b);
 		});
 	}
 
 	@Test
 	void testBIsNegative() {
 		assertThrows(InvalidParameterException.class, () -> {
-			listSquareRoot = CalculationManager.calculateSquareRoot(default_a, -default_b);
+			listSquareRoot = CalculationUtility.calculateSquareRoot(default_a, -default_b);
 		});
 	}
 

@@ -4,7 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalculationManager {
+public class CalculationUtility {
 
 	/**
 	 * Give a List of square root number between a and b

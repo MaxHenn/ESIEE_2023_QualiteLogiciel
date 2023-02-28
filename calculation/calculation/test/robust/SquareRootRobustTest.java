@@ -6,7 +6,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
-import calculation.process.CalculationManager;
+import calculation.process.CalculationUtility;
 
 public class SquareRootRobustTest {
 
@@ -16,7 +16,7 @@ public class SquareRootRobustTest {
 	@Test
 	void testTimeForSquareRoot() {
 		assertTimeout(Duration.ofSeconds(default_time_seconds), () -> {
-			CalculationManager.calculateSquareRoot(1, number_squareroot_test);
+			CalculationUtility.calculateSquareRoot(1, number_squareroot_test);
 		});
 	}
 
@@ -24,7 +24,7 @@ public class SquareRootRobustTest {
 	void testTimeForMultipleSquareRoot() {
 		assertTimeout(Duration.ofSeconds(default_time_seconds), () -> {
 			for (int it = 0; it < number_squareroot_test; it++) {
-				CalculationManager.calculateSquareRoot(1, 10);
+				CalculationUtility.calculateSquareRoot(1, 10);
 			}
 		});
 	}
