@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import calculation.process.CalculationManager;
@@ -18,18 +20,23 @@ public class SquareRootUnitTest {
 	private static int default_b = 5;
 	private static List<Double> listSquareRoot;
 
-	@Before
-	public static void cleanList() {
+	@BeforeEach
+	public void cleanList() {
 		listSquareRoot = new LinkedList<Double>();
 	}
 
-	@After
-	public static void verifyList() {
+	@AfterEach
+	public void verifyList() {
 		for (Double number : listSquareRoot) {
-			if (number < 0) {
-				fail("A given value is negative");
-			}
+			assertFalse(number < 0);
 		}
+	}
+
+	@Test
+	public void testCalculate() {
+		assertDoesNotThrow(() -> {
+			listSquareRoot = CalculationManager.calculateSquareRoot(default_a, default_b);
+		});
 	}
 
 	@Test
