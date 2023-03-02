@@ -23,8 +23,8 @@ public class MainWindow extends JFrame {
 
 	private JPanel fieldPanel;
 	private JPanel buttonPanel;
-	JTextField firstField;
-	JTextField secondField;
+	private JTextField firstField;
+	private JTextField secondField;
 
 	public MainWindow() {
 		initLayout();
@@ -66,32 +66,20 @@ public class MainWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String popupTitle = "Calculation : Square Root";
-			int firstNumber, secondNumber;
+			String firstFieldText = firstField.getText();
+			String secondFieldText = secondField.getText();
+			List<Double> result;
 			try {
-				firstNumber = readTextField(firstField);
-				secondNumber = readTextField(secondField);
+				result = CalculationUtility.calculateSquareRoot(firstFieldText, secondFieldText);
 			} catch (InvalidParameterException ex) {
 				JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage(), popupTitle, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			List<Double> result = CalculationUtility.calculateSquareRoot(firstNumber, secondNumber);
 			String resultText = new String();
 			for (Double number : result) {
 				resultText += number.toString() + "\n";
 			}
 			JOptionPane.showMessageDialog(MainWindow.this, resultText, popupTitle, JOptionPane.INFORMATION_MESSAGE);
-		}
-
-		private int readTextField(JTextField textField) {
-			String fieldValue = textField.getText();
-			if (fieldValue == null || fieldValue.trim().isEmpty()) {
-				throw new InvalidParameterException("Empty field " + textField.getName());
-			}
-			Integer number = Integer.valueOf(fieldValue);
-			if (number == null) {
-				throw new InvalidParameterException("No number found in field " + textField.getName());
-			}
-			return number.intValue();
 		}
 	}
 
@@ -99,32 +87,20 @@ public class MainWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String popupTitle = "Calculation : Square Root";
-			int firstNumber, secondNumber;
+			String firstFieldText = firstField.getText();
+			String secondFieldText = secondField.getText();
+			List<Integer> result;
 			try {
-				firstNumber = readTextField(firstField);
-				secondNumber = readTextField(secondField);
+				result = CalculationUtility.calculateGoodNumber(firstFieldText, secondFieldText);
 			} catch (InvalidParameterException ex) {
 				JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage(), popupTitle, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			List<Integer> result = CalculationUtility.calculateGoodNumber(firstNumber, secondNumber);
 			String resultText = new String();
 			for (Integer number : result) {
 				resultText += number.toString() + "\n";
 			}
 			JOptionPane.showMessageDialog(MainWindow.this, resultText, popupTitle, JOptionPane.INFORMATION_MESSAGE);
-		}
-
-		private int readTextField(JTextField textField) {
-			String fieldValue = textField.getText();
-			if (fieldValue == null || fieldValue.trim().isEmpty()) {
-				throw new InvalidParameterException("Empty field " + textField.getName());
-			}
-			Integer number = Integer.valueOf(fieldValue);
-			if (number == null) {
-				throw new InvalidParameterException("No number found in field " + textField.getName());
-			}
-			return number.intValue();
 		}
 	}
 
