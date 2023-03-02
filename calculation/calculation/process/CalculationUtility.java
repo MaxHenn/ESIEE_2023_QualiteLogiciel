@@ -14,7 +14,7 @@ public class CalculationUtility {
 	 * @return A List of Double element with represent all square root number
 	 *         between a and b
 	 */
-	public static List<Double> calculateSquareRoot(int a, int b) {
+	public static List<Double> calculateSquareRoot(int a, int b) throws InvalidParameterException {
 		if (a < 0 || b < 0) {
 			throw new InvalidParameterException("Parameters must be positive");
 		} else if (a > b) {
@@ -30,6 +30,21 @@ public class CalculationUtility {
 	}
 
 	/**
+	 * {@link calculation.process.CalculationUtility.getStringNumber convert} the
+	 * given String into int, then use
+	 * 
+	 * @param a the starting number
+	 * @param b the ending number
+	 * @return a List of square Root between the value of a & b
+	 * @throws InvalidParameterException
+	 */
+	public static List<Double> calculateSquareRoot(String a, String b) throws InvalidParameterException {
+		int firstNumber = getStringNumber(a);
+		int secondNumber = getStringNumber(b);
+		return calculateSquareRoot(firstNumber, secondNumber);
+	}
+
+	/**
 	 * Give a List of Good number between a and b
 	 * 
 	 * @param a the starting number. Must be positive and inferior or equal to b.
@@ -37,7 +52,7 @@ public class CalculationUtility {
 	 * @return A List of Double element with represent all square root number
 	 *         between a and b
 	 */
-	public static List<Integer> calculateGoodNumber(int a, int b) {
+	public static List<Integer> calculateGoodNumber(int a, int b) throws InvalidParameterException {
 		if (a < 0 || b < 0) {
 			throw new InvalidParameterException("Parameters must be positive");
 		} else if (a > b) {
@@ -59,6 +74,37 @@ public class CalculationUtility {
 			}
 		}
 		return listGoodNumber;
+	}
+
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 * @throws InvalidParameterException
+	 */
+	public static List<Integer> calculateGoodNumber(String a, String b) throws InvalidParameterException {
+		int firstNumber = getStringNumber(a);
+		int secondNumber = getStringNumber(b);
+		return calculateGoodNumber(firstNumber, secondNumber);
+	}
+
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	private static int getStringNumber(String text) {
+		if (text == null || text.trim().isEmpty()) {
+			throw new InvalidParameterException("Given text is empty");
+		}
+		Integer number;
+		try {
+			number = Integer.valueOf(text);
+		} catch (NumberFormatException ex) {
+			throw new InvalidParameterException("No number found in text");
+		}
+		return number.intValue();
 	}
 
 	public static void main(String[] args) {
