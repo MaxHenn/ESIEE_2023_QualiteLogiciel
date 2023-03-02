@@ -1,4 +1,4 @@
-package calculation.test.robust;
+package calculation.test.sqrt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
