@@ -38,23 +38,60 @@ public class SquareRootUnitTest {
 	}
 
 	@Test
-	void testAIsSuperiorToB() {
+	public void testCalculateGoodValue() {
+		int value = 4;
+		assertDoesNotThrow(() -> {
+			listSquareRoot = CalculationUtility.calculateSquareRoot(value, value);
+		});
+		assertEquals(Math.sqrt(value), listSquareRoot.get(0));
+	}
+
+	@Test
+	public void testAIsSuperiorToB() {
 		assertThrows(InvalidParameterException.class, () -> {
 			listSquareRoot = CalculationUtility.calculateSquareRoot(default_a + default_b, default_b);
 		});
 	}
 
 	@Test
-	void testAIsNegative() {
+	public void testAIsNegative() {
 		assertThrows(InvalidParameterException.class, () -> {
 			listSquareRoot = CalculationUtility.calculateSquareRoot(-default_a, default_b);
 		});
 	}
 
 	@Test
-	void testBIsNegative() {
+	public void testBIsNegative() {
 		assertThrows(InvalidParameterException.class, () -> {
 			listSquareRoot = CalculationUtility.calculateSquareRoot(default_a, -default_b);
+		});
+	}
+
+	@Test
+	public void testValidString() {
+		assertThrows(InvalidParameterException.class, () -> {
+			listSquareRoot = CalculationUtility.calculateSquareRoot(String.valueOf(default_a), String.valueOf(default_b));
+		});
+	}
+
+	@Test
+	public void testInvalidString() {
+		assertThrows(InvalidParameterException.class, () -> {
+			listSquareRoot = CalculationUtility.calculateSquareRoot(String.valueOf(default_a), "Invalid");
+		});
+	}
+
+	@Test
+	public void testEmptyString() {
+		assertThrows(InvalidParameterException.class, () -> {
+			listSquareRoot = CalculationUtility.calculateSquareRoot("", String.valueOf(default_b));
+		});
+	}
+
+	@Test
+	public void testNullString() {
+		assertThrows(InvalidParameterException.class, () -> {
+			listSquareRoot = CalculationUtility.calculateSquareRoot(String.valueOf(default_a), null);
 		});
 	}
 
