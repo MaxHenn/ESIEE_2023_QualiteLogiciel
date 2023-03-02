@@ -7,11 +7,15 @@ import java.security.InvalidParameterException;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import calculation.process.CalculationUtility;
 
@@ -75,11 +79,18 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage(), popupTitle, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			String resultText = new String();
+			DefaultListModel<Double> resultList = new DefaultListModel<Double>();
 			for (Double number : result) {
-				resultText += number.toString() + "\n";
+				resultList.addElement(number);
 			}
-			JOptionPane.showMessageDialog(MainWindow.this, resultText, popupTitle, JOptionPane.INFORMATION_MESSAGE);
+			JList<Double> list = new JList<Double>(resultList);
+			list.setLayoutOrientation(JList.VERTICAL);
+			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list.setVisibleRowCount(1);
+			JScrollPane listScroller = new JScrollPane(list);
+			listScroller.setPreferredSize(WINDOW_MIN_DIMENSION);
+			JOptionPane.showMessageDialog(MainWindow.this, listScroller, popupTitle, JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
 
@@ -96,11 +107,17 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage(), popupTitle, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			String resultText = new String();
+			DefaultListModel<Integer> resultList = new DefaultListModel<Integer>();
 			for (Integer number : result) {
-				resultText += number.toString() + "\n";
+				resultList.addElement(number);
 			}
-			JOptionPane.showMessageDialog(MainWindow.this, resultText, popupTitle, JOptionPane.INFORMATION_MESSAGE);
+			JList<Integer> list = new JList<Integer>(resultList);
+			list.setLayoutOrientation(JList.VERTICAL);
+			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list.setVisibleRowCount(1);
+			JScrollPane listScroller = new JScrollPane(list);
+			listScroller.setPreferredSize(WINDOW_MIN_DIMENSION);
+			JOptionPane.showMessageDialog(MainWindow.this, listScroller, popupTitle, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
