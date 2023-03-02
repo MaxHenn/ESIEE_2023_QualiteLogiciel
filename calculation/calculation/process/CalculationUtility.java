@@ -69,6 +69,7 @@ public class CalculationUtility {
 				goodNumberDecompose += Math.pow(numberPart, 2);
 				goodNumber = goodNumber / 10;
 			}
+			goodNumberDecompose += Math.pow(goodNumber, 2);
 			if (goodNumberDecompose < 10) {
 				listGoodNumber.add(it);
 			}
