@@ -80,7 +80,7 @@ public class GoodNumberUnitTest {
 
 	@Test
 	public void testValidString() {
-		assertThrows(InvalidParameterException.class, () -> {
+		assertDoesNotThrow(() -> {
 			listGoodNumer = CalculationUtility.calculateGoodNumber(String.valueOf(default_a), String.valueOf(default_b));
 		});
 	}

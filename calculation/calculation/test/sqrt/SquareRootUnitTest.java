@@ -69,7 +69,7 @@ public class SquareRootUnitTest {
 
 	@Test
 	public void testValidString() {
-		assertThrows(InvalidParameterException.class, () -> {
+		assertDoesNotThrow(() -> {
 			listSquareRoot = CalculationUtility.calculateSquareRoot(String.valueOf(default_a), String.valueOf(default_b));
 		});
 	}

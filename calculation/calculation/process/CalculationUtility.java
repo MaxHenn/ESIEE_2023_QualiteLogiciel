@@ -31,7 +31,9 @@ public class CalculationUtility {
 
 	/**
 	 * {@link calculation.process.CalculationUtility.getStringNumber convert} the
-	 * given String into int, then use
+	 * given String into int, then use the
+	 * {@link calculation.process.CalculationUtility.calculateSquareRoot default}
+	 * calculation
 	 * 
 	 * @param a the starting number
 	 * @param b the ending number
@@ -78,6 +80,10 @@ public class CalculationUtility {
 	}
 
 	/**
+	 * {@link calculation.process.CalculationUtility.getStringNumber convert} the
+	 * given String into int, then use the
+	 * {@link calculation.process.CalculationUtility.calculateGoodNumber default}
+	 * calculation
 	 * 
 	 * @param a
 	 * @param b
